@@ -1,0 +1,14 @@
+.user-img {
+    width: 352px; /* Ancho fijo */
+    height: 352px; /* Alto fijo */
+    object-fit: cover; /* Mantiene la proporción y recorta si es necesario */
+    border-radius: 15px; /* Mantiene las esquinas redondeadas */
+}
+
+.input-group-lg .input-group-text {
+    height: calc(2.5rem + 2px); /* Igual al tamaño de .form-control-lg */
+    font-size: 1.25rem; /* Asegura que el ícono tenga buen tamaño */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -1,0 +1,9 @@
+<section class="container my-5">
+    <div class="row g-5">
+        @for (usuario of usuarios; track usuario.id) {
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                <app-user-card [usuario]="usuario"></app-user-card>
+            </div>
+        }
+    </div>
+</section>
