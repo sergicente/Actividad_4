@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { IUser } from '../../interfaces/user';
+import { User } from '../../interfaces/user';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
@@ -11,31 +11,34 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
   styleUrl: './user.component.css'
 })
 export class UserComponent {
-eliminarUsuario() {
-throw new Error('Method not implemented.');
-}
-volverAlListado() {
-throw new Error('Method not implemented.');
-}
 
-  usuario!: IUser;
 
+  usuario!: User;
   userService = inject(UserService);
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params: any) => {
-      let id = parseInt(params['id'], 10); // Convertir a número
-      let response = this.userService.getById(id);
-      if (response != undefined) {
-        this.usuario = response;
-      } else {
-        this.router.navigate(['/']);
-      }
-    })
-
-
+      const _id: string = params._id;
+  
+      this.userService.getById(_id).subscribe({
+        next: (usuario: User) => {
+          this.usuario = usuario;
+        },
+        error: (e) => {
+          console.error('Error al obtener el usuario:', e);
+          this.router.navigate(['/']);
+        }
+      });
+    });
   }
+
+  eliminarUsuario() {
+    throw new Error('Method not implemented.');
+    }
+    volverAlListado() {
+    throw new Error('Method not implemented.');
+    }
 
 }

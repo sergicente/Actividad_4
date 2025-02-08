@@ -7,7 +7,7 @@ import { NewUserComponent } from './pages/new-user/new-user.component';
 export const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'home'},
     {path: 'home', component: HomeComponent},
-    {path: 'user/:id', component: UserComponent},
+    {path: 'user/:_id', component: UserComponent},
     {path: 'newuser', component: NewUserComponent},
     {path: '**', component: Page404Component}
 ];

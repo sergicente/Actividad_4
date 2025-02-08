@@ -1,7 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { IUser } from '../../interfaces/user';
+import { User } from '../../interfaces/user';
 import { UserService } from '../../services/user.service';
 import { UserCardComponent } from "../../components/user-card/user-card.component";
+import { ApiResponse } from '../../interfaces/api-response';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,7 @@ import { UserCardComponent } from "../../components/user-card/user-card.componen
 })
 export class HomeComponent {
   
-  usuarios:IUser[];
+  usuarios:User[];
 
   userService = inject(UserService);
 
@@ -20,7 +21,9 @@ export class HomeComponent {
     this.usuarios = [];
   }
 
-  ngOnInit(){
-    this.usuarios = this.userService.getAll();
+  ngOnInit(): void {
+    this.userService.getAllWithObservable().subscribe((data: ApiResponse) => {
+      this.usuarios = data.results;
+    });
   }
 }

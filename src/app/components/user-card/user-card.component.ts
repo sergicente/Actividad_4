@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IUser } from '../../interfaces/user';
+import { User } from '../../interfaces/user';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -15,6 +15,6 @@ throw new Error('Method not implemented.');
 }
   
    // Recibe un usuario como propiedad
-  @Input() usuario!: IUser;
+  @Input() usuario!: User;
 
 }
