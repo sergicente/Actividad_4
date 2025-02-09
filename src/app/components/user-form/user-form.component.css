@@ -1,17 +1,9 @@
-.user-img {
-    max-width: 340px;
-    max-height: 350px;
-    object-fit: cover; 
-    width: 340px!important;
-    height: 350px!important;
-}
-
 .alert-fixed {
     position: fixed;
     top: 50px;
     left: 50%;
     transform: translateX(-50%);
-    width: 90%; /* Ajusta el ancho para que no sea muy grande */
-    max-width: 400px; /* Máximo ancho */
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    width: 90%;
+    max-width: 400px;
+    z-index: 1000;
 }

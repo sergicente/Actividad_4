@@ -1,7 +1,7 @@
 <div class="card rounded-4 border-0 ">
-    <div class="p-4 pb-1">
+    <div class="p-3 pb-1">
         <a [routerLink]="['/user', usuario._id]"><img [src]="usuario.image" alt="{{ usuario.first_name }}"
-                class="card-img rounded-1 ">
+                class="card-img rounded-2 ">
         </a>
 
     </div>
@@ -22,7 +22,7 @@
             </a>
 
             <!-- Botón Borrar -->
-            <button class="btn btn-sm d-flex flex-column align-items-center text-black-50 p-0"
+            <button (click)="confirmarBorrar()" class="btn btn-sm d-flex flex-column align-items-center text-black-50 p-0"
                 >
                 <i class="fa-regular fa-trash-can"></i> <span class="small fw-bold text-black-50">Borrar</span>
             </button>

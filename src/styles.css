@@ -20,3 +20,25 @@ app-root {
     align-items: center; /* Centra verticalmente */
     justify-content: center; /* Centra horizontalmente */
 }
+
+.tarjeta{
+    max-width: 800px!important;
+}
+
+.swal2-cancel, .swal2-confirm {
+    color: #000000;
+    background-color: #f8f9fa;
+    border-radius: 7px;
+    margin: 0em 1em 1em 1em;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  .swal2-popup{
+    border-radius: 14px;
+  }
+
+  /* .swal2-question{
+    color:rgba(0, 0, 0, .5)!important;
+    border-color:rgba(0, 0, 0, .5)!important;
+  } */

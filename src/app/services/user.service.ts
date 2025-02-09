@@ -19,11 +19,19 @@ export class UserService {
     return this.httpClient.get<ApiResponse>(this.baseUrl);
   }
 
-  // getAllWithPromises(): Promise<ApiResponse>{
-  //   return lastValueFrom(this.httpClient.get<ApiResponse>(this.baseUrl));
-  // }
+  eliminarUsuario(id: string): Observable<User> {
+    return this.httpClient.delete<User>(`https://peticiones.online/api/users/${id}`);
+  }
 
   getById(_id: string): Observable<User> {
     return this.httpClient.get<User>(`${this.baseUrl}/${_id}`);
+  }
+
+  createUser(user: Partial<User>): Observable<User> {
+    return this.httpClient.post<User>(`https://peticiones.online/api/users`, user);
+  }
+
+  updateUser(id: string, userData: Partial<User>): Observable<User> {
+    return this.httpClient.put<User>(`https://peticiones.online/api/users/${id}`, userData);
   }
 }
