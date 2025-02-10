@@ -1,9 +1,22 @@
 .alert-fixed {
     position: fixed;
     top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 400px;
+    right: 0%;
     z-index: 1000;
+    border:none;
 }
+
+.input-group-text {
+    display: flex;
+    align-items: center;
+    height: auto;
+    font-size:13px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    width: 100px;
+    color: #666;
+  }
+  
+  .input-group .form-control {
+    height: auto; /* Asegura que el input se ajuste naturalmente a la altura del texto */
+  }

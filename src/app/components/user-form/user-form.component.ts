@@ -44,7 +44,6 @@ export class UserFormComponent {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['usuario'] && changes['usuario'].currentValue) {
       this.modelForm.patchValue(this.usuario);
-      // Prellenar el formulario con el usuario
     }
   }
 
@@ -73,16 +72,6 @@ export class UserFormComponent {
     this.modelForm.markAllAsTouched();
   
     if (this.modelForm.invalid) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Formulario inválido',
-        text: 'Por favor, revisa los campos.',
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true
-      });
       return;
     }
   

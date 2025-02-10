@@ -1,135 +1,171 @@
-    @if(usuario){
+@if(usuario){
 
-    
-    <div>
-        <form [formGroup]="modelForm" (ngSubmit)="guardar()">
 
-            @if (mostrarAlertErrores()) {
-            <div class="alert alert-danger small p-3 mt-4 alert-fixed">
-                <ul class="mb-0 ps-3" style="list-style: none;">
-                    @if (checkControl('first_name', 'required')) {
-                    <li>El <strong>nombre</strong> es obligatorio.</li>
-                    }
-                    @if (checkControl('first_name', 'minlength')) {
-                    <li>El <strong>nombre</strong> debe tener al menos 3 caracteres.</li>
-                    }
-                    @if (checkControl('last_name', 'required')) {
-                    <li>El <strong>apellido</strong> es obligatorio.</li>
-                    }
-                    @if (checkControl('last_name', 'minlength')) {
-                    <li>El <strong>apellido</strong> debe tener al menos 3 caracteres.</li>
-                    }
-                    @if (checkControl('username', 'required')) {
-                    <li>El <strong>username</strong> es obligatorio.</li>
-                    }
-                    @if (checkControl('username', 'minlength')) {
-                    <li>El <strong>username</strong> debe tener al menos 3 caracteres.</li>
-                    }
-                    @if (checkControl('email', 'required')) {
-                    <li>El <strong>email</strong> es obligatorio.</li>
-                    }
-                    @if (checkControl('email', 'email')) {
-                    <li>El <strong>email</strong> debe ser válido.</li>
-                    }
-                    @if (checkControl('password', 'required')) {
-                    <li>La <strong>contraseña</strong> es obligatoria.</li>
-                    }
-                    @if (checkControl('password', 'minlength')) {
-                    <li>La <strong>contraseña</strong> debe tener al menos 6 caracteres.</li>
-                    }
-                    @if (checkControl('confirm_password', 'required')) {
-                    <li>Debe repetir la <strong>contraseña</strong>.</li>
-                    }
-                    @if (modelForm.errors?.['mustMatch'] && modelForm.get('confirm_password')?.touched) {
-                    <li>Las <strong>contraseñas</strong> no coinciden.</li>
-                    }
-                    @if (checkControl('image', 'required')) {
-                    <li>Introducir una <strong>imagen</strong> es obligatorio.</li>
-                    }
-                    @if (checkControl('image', 'pattern')) {
-                    <li>El enlace de la <strong>imagen</strong> debe ser válido.</li>
-                    }
-                </ul>
-            </div>
-            }
-            
-            <div class="tarjeta bg-white rounded-4 border-0 w-100">
-                <div class="row g-0">
-                    <!-- columna izquierda -->
-                    <div class="col-md-6 d-flex flex-column align-items-center justify-content-center border-0 p-4">
-                        <img 
-                            [src]="(modelForm.get('image')?.valid ? modelForm.get('image')?.value : 'sin_imagen.jpg')"
-                            class="img-fluid rounded-3 user-img">
-                    </div>
+<div>
+    <form [formGroup]="modelForm" (ngSubmit)="guardar()">
 
-                    <!-- columna derecha -->
-                    <div class="col-md-6 p-4 ps-0 d-flex flex-column">
-                        <div class="d-flex flex-column text-center text-md-start flex-grow-1">
+        @if (mostrarAlertErrores()) {
+        <div class="alert alert-danger small py-4 px-5 alert-fixed rounded-4 m-5 shadow-sm">
+            <h5><i class="fa-solid fa-triangle-exclamation me-2"></i>Errores</h5>
+            <ul class="mb-0 ps-0" style="list-style: none;">
+                @if (checkControl('first_name', 'required')) {
+                <li>El <strong>nombre</strong> es obligatorio</li>
+                }
+                @if (checkControl('first_name', 'minlength')) {
+                <li>El <strong>nombre</strong> debe tener al menos 3 caracteres</li>
+                }
+                @if (checkControl('last_name', 'required')) {
+                <li>El <strong>apellido</strong> es obligatorio</li>
+                }
+                @if (checkControl('last_name', 'minlength')) {
+                <li>El <strong>apellido</strong> debe tener al menos 3 caracteres</li>
+                }
+                @if (checkControl('username', 'required')) {
+                <li>El <strong>username</strong> es obligatorio</li>
+                }
+                @if (checkControl('username', 'minlength')) {
+                <li>El <strong>username</strong> debe tener al menos 3 caracteres</li>
+                }
+                @if (checkControl('email', 'required')) {
+                <li>El <strong>email</strong> es obligatorio</li>
+                }
+                @if (checkControl('email', 'email')) {
+                <li>El <strong>email</strong> debe ser válido</li>
+                }
+                @if (checkControl('password', 'required')) {
+                <li>La <strong>contraseña</strong> es obligatoria</li>
+                }
+                @if (checkControl('password', 'minlength')) {
+                <li>La <strong>contraseña</strong> debe tener al menos 6 caracteres</li>
+                }
+                @if (checkControl('confirm_password', 'required')) {
+                <li>Debe repetir la <strong>contraseña</strong></li>
+                }
+                @if (modelForm.errors?.['mustMatch'] && modelForm.get('confirm_password')?.touched) {
+                <li>Las <strong>contraseñas</strong> no coinciden</li>
+                }
+                @if (checkControl('image', 'required')) {
+                <li>Introducir una <strong>imagen</strong> es obligatorio</li>
+                }
+                @if (checkControl('image', 'pattern')) {
+                <li>El enlace de la <strong>imagen</strong> debe ser válido</li>
+                }
+            </ul>
+        </div>
+        }
 
-                            <!-- Nombre -->
-                            <input type="text" class="form-control bg-light border-0" placeholder="Nombre"
-                                formControlName="first_name"
-                                [class.is-invalid]="modelForm.get('first_name')?.invalid && modelForm.get('first_name')?.touched">
+        <div class="tarjeta bg-white rounded-4 border-0 w-100">
+            <div class="row g-0">
+                <!-- columna izquierda -->
+                <div class="col-md-6 d-flex flex-column align-items-center justify-content-center border-0 p-4">
+                    <img [src]="(modelForm.get('image')?.valid ? modelForm.get('image')?.value : 'sin_imagen.jpg')"
+                        class="img-fluid rounded-3 user-img">
+                </div>
 
-                            <!-- Apellido -->
-                            <input type="text" class="form-control bg-light border-0 mt-3" placeholder="Apellidos"
-                                formControlName="last_name"
-                                [class.is-invalid]="modelForm.get('last_name')?.invalid && modelForm.get('last_name')?.touched">
+                <!-- columna derecha -->
+                <div class="col-md-6 p-4 ps-0 d-flex flex-column">
+                    <div class="d-flex flex-column text-center text-md-start flex-grow-1">
 
-                            <!-- Username -->
-                            <input type="text" class="form-control bg-light border-0 mt-3" placeholder="Usuario"
-                                formControlName="username"
-                                [class.is-invalid]="modelForm.get('username')?.invalid && modelForm.get('username')?.touched">
+                        <!-- Nombre -->
+                        <div class="input-group mb-2 mt-1">
+                            <div class="input-group-prepend d-flex align-items-stretch">
+                                <span class="input-group-text">Nombre</span>
+                            </div>
+                            <input type="text" class="form-control" formControlName="first_name"
+                                [class.is-invalid]="modelForm.get('first_name')?.invalid && modelForm.get('first_name')?.touched"
+                                required>
+                        </div>
 
-                            <!-- Password -->
-                            <input type="password" class="form-control bg-light border-0 mt-3" placeholder="Contraseña"
-                                formControlName="password"
-                                [class.is-invalid]="modelForm.get('password')?.invalid && modelForm.get('password')?.touched">
+                        <!-- Apellido -->
+                        <div class="input-group mb-2 mt-1">
+                            <div class="input-group-prepend d-flex align-items-stretch">
+                                <span class="input-group-text">Apellido</span>
+                            </div>
+                            <input type="text" class="form-control" formControlName="last_name"
+                                [class.is-invalid]="modelForm.get('last_name')?.invalid && modelForm.get('last_name')?.touched"
+                                required>
+                        </div>
 
-                            <!-- Repite Password -->
-                            <input type="password" class="form-control bg-light border-0 mt-3"
-                                placeholder="Repite la contraseña" formControlName="confirm_password"
-                                [class.is-invalid]="(modelForm.get('confirm_password')?.invalid && modelForm.get('confirm_password')?.touched) || modelForm.errors?.['mustMatch']">
+                        <!-- Usuario -->
+                        <div class="input-group mb-2 mt-1">
+                            <div class="input-group-prepend d-flex align-items-stretch">
+                                <span class="input-group-text">Usuario</span>
+                            </div>
+                            <input type="text" class="form-control" formControlName="username"
+                                [class.is-invalid]="modelForm.get('username')?.invalid && modelForm.get('username')?.touched"
+                                required>
+                        </div>
 
-                            <!-- Email -->
-                            <input type="email" class="form-control bg-light border-0 mt-3" placeholder="Email"
-                                formControlName="email"
-                                [class.is-invalid]="modelForm.get('email')?.invalid && modelForm.get('email')?.touched">
+                        <!-- Contraseña -->
+                        <div class="input-group mb-2 mt-1">
+                            <div class="input-group-prepend d-flex align-items-stretch">
+                                <span class="input-group-text">Contraseña</span>
+                            </div>
+                            <input type="password" class="form-control" formControlName="password"
+                                [class.is-invalid]="modelForm.get('password')?.invalid && modelForm.get('password')?.touched"
+                                required>
+                        </div>
 
-                            <!-- Imagen -->
-                            <input type="text" class="form-control bg-light border-0 mt-3" placeholder="URL de imagen"
-                                formControlName="image"
-                                [class.is-invalid]="modelForm.get('image')?.invalid && modelForm.get('image')?.touched">
+                        <!-- Confirmar Contraseña -->
+                        <div class="input-group mb-2 mt-1">
+                            <div class="input-group-prepend d-flex align-items-stretch">
+                                <span class="input-group-text">Repetir con.</span>
+                            </div>
+                            <input type="password" class="form-control" formControlName="confirm_password"
+                                [class.is-invalid]="(modelForm.get('confirm_password')?.invalid && modelForm.get('confirm_password')?.touched) || modelForm.errors?.['mustMatch']"
+                                required>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="input-group mb-2 mt-1">
+                            <div class="input-group-prepend d-flex align-items-stretch">
+                                <span class="input-group-text">Email</span>
+                            </div>
+                            <input type="email" class="form-control" formControlName="email"
+                                [class.is-invalid]="modelForm.get('email')?.invalid && modelForm.get('email')?.touched"
+                                required>
+                        </div>
+
+                        <!-- URL de Imagen -->
+                        <div class="input-group mb-2 mt-1">
+                            <div class="input-group-prepend d-flex align-items-stretch">
+                                <span class="input-group-text">Imagen</span>
+                            </div>
+                            <input type="text" class="form-control" formControlName="image"
+                                [class.is-invalid]="modelForm.get('image')?.invalid && modelForm.get('image')?.touched"
+                                required>
                         </div>
                     </div>
                 </div>
-
-
-
-
-
             </div>
 
 
 
-            <div class="d-flex justify-content-between">
-                @if(parent=="new"){
-                    <button [routerLink]="['/home']" class="btn btn-light text-black-50 fs-6 mt-3">Cancelar</button>
-                    <button type="submit" class="btn btn-light text-black-50 fs-6 mt-3">
-                        <i class="fa-solid fa-floppy-disk me-3"></i>
-                        <span class="">Guardar usuario</span>
-                    </button>
-                }@else{
-                    <button [routerLink]="['/user', usuario._id]" class="btn btn-light text-black-50 fs-6 mt-3">Cancelar edición</button>
-                    <button type="submit" class="btn btn-light text-black-50 fs-6 mt-3">
-                        <i class="fa-solid fa-floppy-disk me-3"></i>
-                        <span class="">Guardar cambios</span>
-                    </button>
-                }
-
-            </div>
 
 
-        </form>
-    </div>
+        </div>
+
+
+
+        <div class="d-flex justify-content-between">
+            @if(parent=="new"){
+            <button [routerLink]="['/home']" class="btn btn-light text-black-50 fs-6 mt-3">Cancelar</button>
+            <button type="submit" class="btn btn-light text-black-50 fs-6 mt-3">
+                <i class="fa-solid fa-floppy-disk me-3"></i>
+                <span class="">Guardar usuario</span>
+            </button>
+            }@else{
+            <button [routerLink]="['/user', usuario._id]" class="btn btn-light text-black-50 fs-6 mt-3">Cancelar
+                edición</button>
+            <button type="submit" class="btn btn-light text-black-50 fs-6 mt-3">
+                <i class="fa-solid fa-floppy-disk me-3"></i>
+                <span class="">Guardar cambios</span>
+            </button>
+            }
+
+        </div>
+
+
+    </form>
+</div>
 }
