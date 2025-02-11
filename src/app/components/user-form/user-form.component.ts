@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { User } from '../../interfaces/user';
 import Swal from 'sweetalert2';
 import { UserService } from '../../services/user.service';
@@ -15,14 +15,24 @@ import { UserService } from '../../services/user.service';
 })
 export class UserFormComponent {
 
-  submitted = false;
+  @Input() parent: string;
+  mostrarErrores = false;
   modelForm: FormGroup;
   router = inject(Router);
-
-  @Input() parent: string;
-  @Input() usuario: User = { _id: '', first_name: '', last_name: '', email: '', username: '', image: '', password: '' };
-  @Output() formSubmitted = new EventEmitter<User>();
+  usuario: User = { _id: '', first_name: '', last_name: '', email: '', username: '', image: '', password: '' };
   userService = inject(UserService);
+  activatedRoute = inject(ActivatedRoute);
+  toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    }
+  });
 
   // Constructor donde se inicializa el formulario reactivo y definimos las validaciones de los campos.
   constructor() {
@@ -41,10 +51,24 @@ export class UserFormComponent {
     }, { validators: this.passwordsMatch, updateOn: 'blur' });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['usuario'] && changes['usuario'].currentValue) {
-      this.modelForm.patchValue(this.usuario);
-    }
+  ngOnInit(): void {
+    this.activatedRoute.params.subscribe(async (params: any) => {
+      if (params._id) {
+        const userResponse = await this.userService.getByIdWithPromises(params._id);
+        this.usuario = userResponse;
+        this.modelForm = new FormGroup({
+          first_name: new FormControl(userResponse.first_name, [Validators.required, Validators.minLength(3)]),
+          last_name: new FormControl(userResponse.last_name, [Validators.required, Validators.minLength(3)]),
+          username: new FormControl(userResponse.username, [Validators.required, Validators.minLength(3)]),
+          email: new FormControl(userResponse.email, [Validators.required, Validators.email]),
+          image: new FormControl(userResponse.image, [
+            Validators.required,
+            Validators.pattern(/^(https?:\/\/)?([\w\-]+(\.[\w\-]+)+)([\/\w\-._~:?#[\]@!$&'()*+,;=]*)?$/)
+          ]),
+        },
+          []);
+      }
+    })
   }
 
   // Método para comprobar si un campo tiene un error
@@ -52,11 +76,20 @@ export class UserFormComponent {
     return this.modelForm.get(formControlName)?.hasError(validador) && this.modelForm.get(formControlName)?.touched;
   }
 
-  // Validación para comprobar si las contraseñas coinciden
-  passwordsMatch(group: AbstractControl): ValidationErrors | null {
-    const password = group.get('password')?.value || '';
-    const confirmPassword = group.get('confirm_password')?.value || '';
-    return password && confirmPassword && password !== confirmPassword ? { mustMatch: true } : null;
+  // Verifica si las contraseñas coinciden
+  passwordsMatch(formulario: AbstractControl): ValidationErrors | null {
+    const password = formulario.get('password')?.value;
+    const confirmPassword = formulario.get('confirm_password')?.value;
+    // No valida si alguna contraseña está vacía
+    if (!password || !confirmPassword) {
+      return null;
+    }
+    // Error si no coinciden
+    if (password !== confirmPassword) {
+      return { mustMatch: true };
+    }
+    // Las contraseñas coinciden
+    return null;
   }
 
   mostrarAlertErrores(): boolean {
@@ -68,62 +101,34 @@ export class UserFormComponent {
 
 
   guardar() {
-    this.submitted = true;
+    this.mostrarErrores = true;
     this.modelForm.markAllAsTouched();
-  
+
     if (this.modelForm.invalid) {
       return;
     }
-  
-    if (this.parent === 'new') {
-      this.userService.createUser(this.modelForm.value).subscribe({
-        next: (response:any) => {
-          console.log('Respuesta del servidor:', response);
-          this.toast.fire({
-            icon: 'success',
-            title: `Usuario creado con éxito`
-          });
-          this.router.navigate(['/home']);
-        },
-        error: (e:any) => {
-          console.error('Error del servidor:', e);
-          this.toast.fire({
-            icon: 'error',
-            title: 'No se pudo crear el usuario'
-          });
-        }
-      });
-    }else if (this.parent === 'edit') {
-      this.userService.updateUser(this.usuario._id, this.modelForm.value).subscribe({
-        next: (response) => {
-          console.log('Usuario actualizado:', response);
-          this.toast.fire({
-            icon: 'success',
-            title: `Usuario actualizado con éxito`
-          });
-          this.router.navigate(['/home']);
-        },
-        error: (e:any) => {
-          console.error('Error al actualizar el usuario:', e);
-          this.toast.fire({
-            icon: 'error',
-            title: 'No se pudo actualizar el usuario'
-          });
-        }
-      });
-    }
 
+    const formData = this.modelForm.value;
+    const request = this.parent === 'new'
+      ? this.userService.createUser(formData)
+      : this.userService.updateUser(this.usuario._id, formData);
+
+    request.subscribe({
+      next: (response) => {
+        const message = this.parent === 'new'
+          ? 'Usuario creado con éxito'
+          : 'Usuario actualizado con éxito';
+        console.log('Respuesta del servidor:', response);
+        this.toast.fire({ icon: 'success', title: message });
+        this.router.navigate(['/home']);
+      },
+      error: (e) => {
+        const message = this.parent === 'new'
+          ? 'No se pudo crear el usuario'
+          : 'No se pudo actualizar el usuario';
+        console.error('Error del servidor:', e);
+        this.toast.fire({ icon: 'error', title: message });
+      }
+    });
   }
-
-  toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.onmouseenter = Swal.stopTimer;
-      toast.onmouseleave = Swal.resumeTimer;
-    }
-  });
 }

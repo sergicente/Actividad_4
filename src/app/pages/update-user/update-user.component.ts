@@ -12,24 +12,5 @@ import { User } from '../../interfaces/user';
   styleUrl: './update-user.component.css'
 })
 export class UpdateUserComponent {
-      usuario!: User;
-      userService = inject(UserService);
-      router = inject(Router);
-      activatedRoute = inject(ActivatedRoute);
-    
-      ngOnInit(): void {
-        this.activatedRoute.params.subscribe((params: any) => {
-          const _id: string = params._id;
-      
-          this.userService.getById(_id).subscribe({
-            next: (usuario: User) => {
-              this.usuario = usuario;
-            },
-            error: (e) => {
-              console.error('Error al obtener el usuario:', e);
-              this.router.navigate(['/']);
-            }
-          });
-        });
-      }
+
 }

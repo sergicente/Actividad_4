@@ -27,6 +27,10 @@ export class UserService {
     return this.httpClient.get<User>(`${this.baseUrl}/${_id}`);
   }
 
+  getByIdWithPromises(_id: string): Promise<User> {
+    return lastValueFrom(this.httpClient.get<User>(`${this.baseUrl}/${_id}`))
+  }
+
   createUser(user: Partial<User>): Observable<User> {
     return this.httpClient.post<User>(`https://peticiones.online/api/users`, user);
   }
