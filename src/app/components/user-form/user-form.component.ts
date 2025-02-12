@@ -64,11 +64,10 @@ export class UserFormComponent {
           image: new FormControl(userResponse.image, [
             Validators.required,
             Validators.pattern(/^(https?:\/\/)?([\w\-]+(\.[\w\-]+)+)([\/\w\-._~:?#[\]@!$&'()*+,;=]*)?$/)
-          ]),
-        },
-          []);
+          ])
+        }, { updateOn: 'blur' });
       }
-    })
+    });
   }
 
   // Método para comprobar si un campo tiene un error
